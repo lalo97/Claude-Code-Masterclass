@@ -3,6 +3,9 @@ description: Analyze the current git diff and generate a concise, conventional c
 allowed-tools: Bash(git status:*), Bash(git diff --staged), Bash(git commit:*)
 ---
 
+- Current git status: !`git status`
+- Current git diff: !`git diff --staged`
+
 ## Your task:
 Analyze above staged git changes and create a commit message. Use present tense and explain "why" something has changed, not just "what" has changed. 
 

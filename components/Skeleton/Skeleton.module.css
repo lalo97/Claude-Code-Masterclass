@@ -1,0 +1,39 @@
+@reference "../../app/globals.css";
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.card {
+  @apply bg-light rounded-xl p-6 flex flex-col gap-6;
+}
+
+.header {
+  @apply flex items-center gap-5;
+}
+
+.avatar {
+  @apply bg-lighter rounded-full shrink-0;
+  width: 80px;
+  height: 80px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.headerLines {
+  @apply flex flex-col gap-3 flex-1;
+}
+
+.body {
+  @apply flex flex-col gap-3;
+}
+
+.line {
+  @apply bg-lighter rounded-md h-4;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.lineLong   { width: 75%; }
+.lineMedium { width: 55%; }
+.lineFull   { width: 100%; }
+.lineShort  { width: 45%; }

@@ -15,3 +15,20 @@
 svg.logo {
   display: inline-block;
 }
+
+.createBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(to right, #9810fa, #e60076);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s;
+}
+
+.createBtn:hover {
+  opacity: 0.85;
+}

@@ -11,12 +11,12 @@ export default function Home() {
         <h1>
           P<Clock8 className="logo" strokeWidth={2.75} />cket Heist
         </h1>
-        <div>Tiny missions. Big office mischief.</div>
+        <div>Steal the day. One task at a time.</div>
         <p className="mt-4 text-gray-400 max-w-md text-center">
           Assign covert tasks to your colleagues, track progress in secret, and
           cause just enough chaos to make the workday interesting. Whether
           you're hiding someone's stapler or orchestrating a full desk takeover
-          — Pocket Heist has you covered.
+          — Pocket Heist has you covered. v2
         </p>
       </div>
     </div>

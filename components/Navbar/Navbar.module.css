@@ -12,6 +12,13 @@
   @apply font-bold text-xl;
 }
 
+.siteNav ul {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+}
+
 svg.logo {
   display: inline-block;
 }
@@ -30,5 +37,21 @@ svg.logo {
 }
 
 .createBtn:hover {
+  opacity: 0.85;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.logoutBtn:hover {
   opacity: 0.85;
 }

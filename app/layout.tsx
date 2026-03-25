@@ -1,21 +1,22 @@
-import type { Metadata } from "next"
-import "@/app/globals.css"
+import type { Metadata } from "next";
+import "@/app/globals.css";
+import { UserProvider } from "@/context/UserContext";
 
 export const metadata: Metadata = {
   title: "Pocket Heist",
   description: "Tiny missions. Big office mischief.",
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
-  )
+  );
 }

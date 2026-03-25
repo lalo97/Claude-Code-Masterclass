@@ -3,6 +3,29 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AuthForm from "@/components/AuthForm";
 
+vi.mock("next/navigation", () => ({
+  useRouter: vi.fn(() => ({ push: vi.fn() })),
+}));
+
+vi.mock("firebase/auth", () => ({
+  createUserWithEmailAndPassword: vi.fn(),
+  updateProfile: vi.fn(),
+}));
+
+vi.mock("firebase/firestore", () => ({
+  setDoc: vi.fn(),
+  doc: vi.fn(),
+}));
+
+vi.mock("@/lib/firebase", () => ({
+  auth: {},
+  db: {},
+}));
+
+vi.mock("@/lib/codename", () => ({
+  generateCodename: vi.fn(),
+}));
+
 // Mock next/link to render a plain anchor
 vi.mock("next/link", () => ({
   default: ({

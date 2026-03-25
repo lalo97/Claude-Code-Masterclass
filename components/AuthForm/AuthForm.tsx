@@ -3,6 +3,11 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
+import { generateCodename } from "@/lib/codename";
 import styles from "./AuthForm.module.css";
 
 interface AuthFormProps {
@@ -31,10 +36,13 @@ export default function AuthForm({ type }: AuthFormProps) {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+  const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
 
+  const router = useRouter();
   const { heading, button, linkHref, linkText } = config[type];
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     const newErrors: { email?: string; password?: string } = {};
@@ -57,7 +65,42 @@ export default function AuthForm({ type }: AuthFormProps) {
     }
 
     setErrors({});
-    console.log({ email, password });
+
+    if (type === "signup") {
+      setLoading(true);
+      setAuthError(null);
+      try {
+        const credential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+        const codename = generateCodename();
+        try {
+          await updateProfile(credential.user, { displayName: codename });
+        } catch (err) {
+          console.error("Failed to update profile:", err);
+        }
+        await setDoc(doc(db, "users", credential.user.uid), {
+          id: credential.user.uid,
+          codename,
+        });
+        router.push("/heists");
+      } catch (err: unknown) {
+        const code = (err as { code?: string }).code;
+        if (code === "auth/email-already-in-use") {
+          setAuthError("An account with this email already exists.");
+        } else if (code === "auth/weak-password") {
+          setAuthError("Password must be at least 6 characters.");
+        } else {
+          setAuthError("Something went wrong. Please try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      console.log({ email, password });
+    }
   }
 
   const HeadingTag = type === "login" ? "h1" : "h2";
@@ -112,8 +155,14 @@ export default function AuthForm({ type }: AuthFormProps) {
         )}
       </div>
 
-      <button type="submit" className="btn">
-        {button}
+      {authError && (
+        <p role="alert" className={styles.error}>
+          {authError}
+        </p>
+      )}
+
+      <button type="submit" className="btn" disabled={loading}>
+        {loading ? "Signing up…" : button}
       </button>
 
       <div className={styles.switchLink}>

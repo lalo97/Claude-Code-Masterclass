@@ -1,11 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
-
-vi.mock("@/context/UserContext", () => ({
-  useUser: () => ({ user: null, loading: false }),
-}));
-
-// component imports
+import { describe, it, expect } from "vitest";
 import Navbar from "@/components/Navbar";
 
 describe("Navbar", () => {

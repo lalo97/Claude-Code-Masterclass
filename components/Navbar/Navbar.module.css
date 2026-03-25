@@ -32,16 +32,3 @@ svg.logo {
 .createBtn:hover {
   opacity: 0.85;
 }
-
-.avatarSkeleton {
-  width: 48px;
-  height: 48px;
-  border-radius: 9999px;
-  background-color: #e2e8f0;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}

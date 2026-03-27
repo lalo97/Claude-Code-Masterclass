@@ -1,0 +1,210 @@
+@reference "../globals.css";
+
+/* ── Background atmosphere ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100lvh;
+  padding: 4rem 1rem;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+.glowPrimary {
+  width: 600px;
+  height: 600px;
+  background: var(--color-primary);
+  top: -10%;
+  left: -15%;
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.glowSecondary {
+  width: 500px;
+  height: 500px;
+  background: var(--color-secondary);
+  bottom: -5%;
+  right: -10%;
+  animation: drift 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 30px) scale(1.08); }
+}
+
+/* ── Content ── */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+/* ── Mission badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ── Heading ── */
+.heading {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeUp 0.6s ease 0.1s both;
+}
+
+.heading :global(svg.logo) {
+  width: 0.85em;
+  height: 0.85em;
+  vertical-align: -0.1em;
+  stroke: url(#logoGradient);
+  -webkit-text-fill-color: unset;
+}
+
+/* ── Tagline ── */
+.tagline {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 500;
+  color: var(--color-heading);
+  letter-spacing: -0.01em;
+  animation: fadeUp 0.6s ease 0.2s both;
+}
+
+/* ── Description ── */
+.description {
+  max-width: 480px;
+  color: var(--color-body);
+  line-height: 1.7;
+  font-size: 0.975rem;
+  animation: fadeUp 0.6s ease 0.3s both;
+}
+
+/* ── CTA buttons ── */
+.cta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+
+.btnSecondary {
+  @apply font-semibold px-4 py-2 rounded-lg transition-colors duration-200;
+  color: var(--color-heading);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-heading) 20%, transparent);
+}
+
+.btnSecondary:hover {
+  background: color-mix(in srgb, var(--color-heading) 8%, transparent);
+  border-color: color-mix(in srgb, var(--color-heading) 35%, transparent);
+}
+
+/* ── Divider ── */
+.divider {
+  width: 100%;
+  max-width: 480px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-body) 25%, transparent),
+    transparent
+  );
+  animation: fadeUp 0.6s ease 0.45s both;
+}
+
+/* ── Feature cards ── */
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+  animation: fadeUp 0.6s ease 0.5s both;
+}
+
+@media (max-width: 400px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--color-lighter) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-body) 12%, transparent);
+  border-radius: 10px;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--color-body);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.featureCard:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  color: var(--color-heading);
+}
+
+.featureIcon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+/* ── Shared fade-up keyframe ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

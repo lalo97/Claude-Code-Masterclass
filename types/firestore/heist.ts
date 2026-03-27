@@ -26,7 +26,7 @@ export interface CreateHeistInput {
   createdByCodename: string;
   assignedTo: string;
   assignedToCodename: string;
-  deadline: Timestamp;
+  deadline: Date;
   finalStatus: null;
 }
 

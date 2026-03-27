@@ -1,6 +1,9 @@
 export default function HeistsPage() {
   return (
     <div className="page-content">
+      <div className="draft-heists">
+        <h2>Your Draft Heists</h2>
+      </div>
       <div className="active-heists">
         <h2>Your Active Heists</h2>
       </div>

@@ -16,6 +16,7 @@ export interface Heist {
   assignedToCodename: string;
   deadline: Date;
   finalStatus: null | "success" | "failure";
+  status: "active" | "draft";
 }
 
 export interface CreateHeistInput {
@@ -28,6 +29,7 @@ export interface CreateHeistInput {
   assignedToCodename: string;
   deadline: Date;
   finalStatus: null;
+  status: "active" | "draft";
 }
 
 export interface UpdateHeistInput {

@@ -4,7 +4,11 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { generateCodename } from "@/lib/codename";
@@ -18,12 +22,14 @@ const config = {
   login: {
     heading: "Log in to Your Account",
     button: "Login",
+    loadingText: "Logging in…",
     linkHref: "/signup",
     linkText: "Don't have an account?",
   },
   signup: {
     heading: "Signup for an Account",
     button: "Sign Up",
+    loadingText: "Signing up…",
     linkHref: "/login",
     linkText: "Already have an account?",
   },
@@ -38,9 +44,10 @@ export default function AuthForm({ type }: AuthFormProps) {
   );
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const router = useRouter();
-  const { heading, button, linkHref, linkText } = config[type];
+  const { heading, button, loadingText, linkHref, linkText } = config[type];
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -99,7 +106,27 @@ export default function AuthForm({ type }: AuthFormProps) {
         setLoading(false);
       }
     } else {
-      console.log({ email, password });
+      setLoading(true);
+      setAuthError(null);
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        setSuccessMessage("Login successful.");
+        setEmail("");
+        setPassword("");
+      } catch (err: unknown) {
+        const code = (err as { code?: string }).code;
+        if (
+          code === "auth/wrong-password" ||
+          code === "auth/user-not-found" ||
+          code === "auth/invalid-credential"
+        ) {
+          setAuthError("Invalid email or password.");
+        } else {
+          setAuthError("Something went wrong. Please try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -161,8 +188,14 @@ export default function AuthForm({ type }: AuthFormProps) {
         </p>
       )}
 
+      {successMessage && (
+        <p role="status" className={styles.success}>
+          {successMessage}
+        </p>
+      )}
+
       <button type="submit" className="btn" disabled={loading}>
-        {loading ? "Signing up…" : button}
+        {loading ? loadingText : button}
       </button>
 
       <div className={styles.switchLink}>

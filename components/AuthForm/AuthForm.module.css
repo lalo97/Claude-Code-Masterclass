@@ -32,6 +32,10 @@
   @apply text-error text-sm;
 }
 
+.success {
+  @apply text-green-500 text-sm;
+}
+
 .switchLink {
   @apply text-center text-body text-sm mt-2;
 }

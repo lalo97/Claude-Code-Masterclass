@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import AuthForm from "@/components/AuthForm";
 
 vi.mock("next/navigation", () => ({
@@ -9,6 +10,7 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: vi.fn(),
+  signInWithEmailAndPassword: vi.fn(),
   updateProfile: vi.fn(),
 }));
 
@@ -44,12 +46,6 @@ vi.mock("next/link", () => ({
 }));
 
 describe("AuthForm", () => {
-  let consoleSpy: ReturnType<typeof vi.spyOn>;
-
-  beforeEach(() => {
-    consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -82,7 +78,11 @@ describe("AuthForm", () => {
     expect(passwordInput.getAttribute("type")).toBe("password");
   });
 
-  it("logs email and password on valid submit", async () => {
+  it("shows success message on valid login submit", async () => {
+    vi.mocked(signInWithEmailAndPassword).mockResolvedValue(
+      {} as Awaited<ReturnType<typeof signInWithEmailAndPassword>>,
+    );
+
     const user = userEvent.setup();
     render(<AuthForm type="login" />);
 
@@ -90,9 +90,8 @@ describe("AuthForm", () => {
     await user.type(screen.getByLabelText("Password"), "secret123");
     await user.click(screen.getByRole("button", { name: "Login" }));
 
-    expect(consoleSpy).toHaveBeenCalledWith({
-      email: "test@example.com",
-      password: "secret123",
+    await waitFor(() => {
+      expect(screen.getByRole("status").textContent).toBe("Login successful.");
     });
   });
 
@@ -104,7 +103,6 @@ describe("AuthForm", () => {
     await user.click(screen.getByRole("button", { name: "Login" }));
 
     expect(screen.getByRole("alert").textContent).toBe("Email is required.");
-    expect(consoleSpy).not.toHaveBeenCalled();
   });
 
   it("shows error when email format is invalid", async () => {
@@ -118,7 +116,6 @@ describe("AuthForm", () => {
     expect(screen.getByRole("alert").textContent).toBe(
       "Please enter a valid email address.",
     );
-    expect(consoleSpy).not.toHaveBeenCalled();
   });
 
   it("shows error when password is shorter than 6 characters", async () => {
@@ -132,7 +129,6 @@ describe("AuthForm", () => {
     expect(screen.getByRole("alert").textContent).toBe(
       "Password must be at least 6 characters.",
     );
-    expect(consoleSpy).not.toHaveBeenCalled();
   });
 
   it("login links to /signup and signup links to /login", () => {

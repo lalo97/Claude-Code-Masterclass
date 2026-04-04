@@ -1,0 +1,43 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply bg-lighter rounded-[10px] p-[21px] flex flex-col gap-3;
+  border: 1px solid var(--color-border);
+}
+
+.titleRow {
+  @apply flex items-start gap-2;
+}
+
+.title {
+  @apply flex-1 text-heading text-base leading-6 hover:underline;
+  letter-spacing: -0.31px;
+}
+
+.clockIcon {
+  @apply text-primary shrink-0 mt-1;
+}
+
+.meta {
+  @apply flex flex-col gap-2;
+}
+
+.metaRow {
+  @apply flex items-center gap-1.5 text-sm text-body;
+}
+
+.assignee {
+  @apply text-primary;
+}
+
+.creator {
+  @apply text-secondary;
+}
+
+.countdown {
+  @apply text-primary;
+}
+
+.overdue {
+  @apply text-primary;
+}

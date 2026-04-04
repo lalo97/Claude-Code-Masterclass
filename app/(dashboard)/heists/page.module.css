@@ -1,0 +1,85 @@
+@reference "../../../app/globals.css";
+
+.section {
+  @apply mb-8;
+}
+
+.sectionHeader {
+  @apply flex items-center gap-3 mb-4;
+}
+
+.iconCircle {
+  @apply flex items-center justify-center rounded-full border w-8 h-8 shrink-0;
+  border-color: var(--color-border);
+}
+
+.sectionTitle {
+  @apply text-heading text-lg font-semibold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty {
+  @apply text-body text-sm;
+}
+
+.historyList {
+  @apply flex flex-col;
+}
+
+.historyRow {
+  @apply py-3 flex flex-col gap-1;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.historyRowTop {
+  @apply flex items-center justify-between gap-4;
+}
+
+.historyTitle {
+  @apply text-heading text-sm flex-1;
+}
+
+.historyDate {
+  @apply flex items-center gap-1.5 text-body text-sm;
+}
+
+.historyBadge {
+  @apply text-xs font-semibold px-2 py-0.5 rounded-full border;
+}
+
+.badgeSuccess {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.badgeFailure {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.historyRowBottom {
+  @apply flex items-center gap-4 text-body text-sm;
+}
+
+.historyMeta {
+  @apply flex items-center gap-1.5;
+}
+
+.historyAssignee {
+  @apply text-primary;
+}
+
+.historyCreator {
+  @apply text-secondary;
+}

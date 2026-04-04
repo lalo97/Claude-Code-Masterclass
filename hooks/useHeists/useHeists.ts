@@ -18,9 +18,9 @@ export function useHeists(mode: HeistMode): {
   heists: Heist[];
   loading: boolean;
 } {
-  const { user } = useUser();
+  const { user, loading: userLoading } = useUser();
   const [heists, setHeists] = useState<Heist[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [snapshotReceived, setSnapshotReceived] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -53,11 +53,11 @@ export function useHeists(mode: HeistMode): {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setHeists(snapshot.docs.map((doc) => doc.data() as Heist));
-      setLoading(false);
+      setSnapshotReceived(true);
     });
 
     return unsubscribe;
   }, [mode, user]);
 
-  return { heists, loading };
+  return { heists, loading: userLoading || (!!user && !snapshotReceived) };
 }
